@@ -154,7 +154,7 @@ def sketch_number(screen, event, row, col):
             draw_nums(screen, board)
 
 def enter_number():
-
+    pass
 
 def clear(self):
     if event.key == pygame.K_BACKSPACE:
