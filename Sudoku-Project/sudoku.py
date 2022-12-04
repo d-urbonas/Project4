@@ -2,8 +2,20 @@ from constants import *
 import pygame
 from sudoku_generator import *
 
-board = generate_sudoku(9, 30)
-initial_board = board
+removed = 30
+sudoku = SudokuGenerator(9, removed)
+sudoku.fill_values()
+solved_sudoku = [["-" for j in range(9)] for i in range(9)]
+for i, row in enumerate(sudoku.get_board()):
+    for j, col in enumerate(row):
+        solved_sudoku[i][j] = col
+sudoku.remove_cells()
+initial_sudoku = [["-" for j in range(9)] for i in range(9)]
+for i, row in enumerate(sudoku.get_board()):
+    for j, col in enumerate(row):
+        initial_sudoku[i][j] = col
+board = sudoku.get_board()
+
 
 def main():
     pygame.init()
@@ -32,6 +44,8 @@ def main():
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE +SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
+            if event.type == pygame.KEYDOWN:
+                sketch_number(screen, event, row, col)
         pygame.display.update()
 
 
@@ -97,12 +111,51 @@ def draw_nums(screen, board):
                 chip_x_rect = chip_x_surf.get_rect(center=(SQUARE_SIZE * col + SQUARE_SIZE // 2, SQUARE_SIZE * row + SQUARE_SIZE // 2))
                 screen.blit(chip_x_surf, chip_x_rect)
 
-def place_number(value):
-    if event.key == pygame.K_num:
-        board.mark_square(row, col, value)
-        screen.fill(BG_COLOR)
-        board.draw()
-        pygame.display.update()
+
+def sketch_number(screen, event, row, col):
+    if initial_sudoku[row][col] != 0:
+        return None
+    else:
+        if event.key == pygame.K_1:
+            board[row][col] = 1
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_2:
+            board[row][col] = 2
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_3:
+            board[row][col] = 3
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_4:
+            board[row][col] = 4
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_5:
+            board[row][col] = 5
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_6:
+            board[row][col] = 6
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_7:
+            board[row][col] = 7
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_8:
+            board[row][col] = 8
+            print(board)
+            draw_nums(screen, board)
+        if event.key == pygame.K_9:
+            board[row][col] = 9
+            print(board)
+            draw_nums(screen, board)
+
+def enter_number():
+
+
 def clear(self):
     if event.key == pygame.K_BACKSPACE:
         board.mark_square(row, col, '-')
