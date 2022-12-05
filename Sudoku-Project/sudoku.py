@@ -167,6 +167,7 @@ def main():
                                          (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
 
                     else:
+                        # In the event that the position is on the reset button return to menu
                         if resetRect.collidepoint(event.pos):
                             print("reset")
                             resetBoard()
@@ -175,6 +176,7 @@ def main():
                             screen.fill(BG_COLOR)
                             draw(screen)
                             draw_nums(screen, board)
+                        # In the event that the position is on the restart button
                         elif restartRect.collidepoint(event.pos):
                             print("restart")
                             startGame()
@@ -183,12 +185,14 @@ def main():
                             screen.fill(BG_COLOR)
                             draw(screen)
                             continue
+                        # In the event that the position is on exit button = exit out of game
                         elif exitRect.collidepoint(event.pos):
                             pygame.display.quit()
                             pygame.quit()
                             exit()
 
                 else:
+                    # In the event that the user presses on the "easy" level
                     if easyRect.collidepoint(event.pos):
                         print("easy")
                         screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -198,6 +202,7 @@ def main():
                         draw(screen)
                         draw_nums(screen, board)
                         continue
+                    # In the event that the user presses on the "medium" level
                     elif mediumRect.collidepoint(event.pos):
                         print("medium")
                         screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -207,6 +212,7 @@ def main():
                         draw(screen)
                         draw_nums(screen, board)
                         continue
+                    # In the event that the user presses on the "hard" level
                     elif hardRect.collidepoint(event.pos):
                         print("hard")
                         screen = pygame.display.set_mode((WIDTH, HEIGHT))
