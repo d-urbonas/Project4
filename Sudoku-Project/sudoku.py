@@ -162,6 +162,16 @@ def clear(self):
         screen.fill(BG_COLOR)
         board.draw()
         pygame.display.update()
+        
+        
+def draw_game_over(winner):
+    screen.fill(BG_COLOR)
+    if winner != 0:
+        end_text = f"Victory"
+    else:
+        end_text = "You lose!"
+    end_surf = font.render(end_text, 0, LINE_COLOR)
+    end_rect = emd_surf.get_rect(center=(WIDTH))
 
 
 if __name__ == "__main__":
