@@ -24,6 +24,7 @@ def main():
     screen.fill(BG_COLOR)
     draw(screen)
     draw_nums(screen, board)
+    game_over = False
 
     while True:
         for event in pygame.event.get():
@@ -46,6 +47,17 @@ def main():
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
             if event.type == pygame.KEYDOWN:
                 sketch_number(screen, event, row, col)
+                if check_if_victory():
+                    # checks if board == to a finished board after every sketch
+                    game_over == True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    # figure out how to restart the game off of this keypress I don't quite know how
+                    pass
+        if game_over:
+            pygame.display.update()
+            pygame.time.delay(500) # small delay before game over screen
+            draw_game_over() 
         pygame.display.update()
 
 
@@ -164,15 +176,25 @@ def clear(self):
         pygame.display.update()
         
         
-def draw_game_over(winner):
-    screen.fill(BG_COLOR)
-    if winner != 0:
-        end_text = f"Victory"
-    else:
-        end_text = "You lose!"
-    end_surf = font.render(end_text, 0, LINE_COLOR)
-    end_rect = emd_surf.get_rect(center=(WIDTH))
+def check_if_victory():
+    # checks to see if the player has won sudoku
+    if board == solved_sudoku:
+        return True
+    return False
 
+
+def draw_game_over():
+    # creates the ending game screen
+    screen.fill(BG_COLOR)
+    end_text = "Victory"
+    end_surf = font.render(end_text, 0, LINE_COLOR)
+    end_rect = end_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 75))
+    screen.blit(end_surf, end_rect)
+
+    restart_text = "Press r to play again!"
+    restart_surf = font.render(restart_text, 0, LINE_COLOR)
+    restart_rect = restart_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 75))
+    screen.blit(restart_surf, restart_rect)
 
 if __name__ == "__main__":
     main()
