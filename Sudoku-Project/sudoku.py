@@ -17,6 +17,7 @@ for i, row in enumerate(sudoku.get_board()):
 board = sudoku.get_board()
 
 
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -30,7 +31,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
                 x, y = event.pos
                 row = int(y // SQUARE_SIZE)
                 col = int(x // SQUARE_SIZE)
@@ -45,7 +46,7 @@ def main():
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE +SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and not game_over:
                 sketch_number(screen, event, row, col)
                 if check_if_victory():
                     # checks if board == to a finished board after every sketch
@@ -182,17 +183,18 @@ def check_if_victory():
         return True
     return False
 
-
 def draw_game_over():
     # creates the ending game screen
+    end_font = pygame.font.Font(None, GAME_OVER_FONT)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     screen.fill(BG_COLOR)
-    end_text = "Victory"
-    end_surf = font.render(end_text, 0, LINE_COLOR)
+    end_text = f"Victory"
+    end_surf = end_font.render(end_text, 0, LINE_COLOR)
     end_rect = end_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 75))
     screen.blit(end_surf, end_rect)
 
     restart_text = "Press r to play again!"
-    restart_surf = font.render(restart_text, 0, LINE_COLOR)
+    restart_surf = end_font.render(restart_text, 0, LINE_COLOR)
     restart_rect = restart_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 75))
     screen.blit(restart_surf, restart_rect)
 
