@@ -4,7 +4,7 @@ from sudoku_generator import *
 
 
 def initialize():
-    # sets all variables as a global function
+    # sets all variables as a global
     # and initializes all of them
     # this method was created so that we can restart
     # the game with a new generated board
