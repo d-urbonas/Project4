@@ -60,17 +60,19 @@ def main():
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE), (col * SQUARE_SIZE +SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
                 pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
-            if event.type == pygame.KEYDOWN and not game_over:
-                sketch_number(screen, event, row, col)
-                if check_if_victory():
-                    # checks if board == to a finished board after every sketch
-                    game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     # restarts game off of this keypress
                     # generates a different board too :)
                     initialize()
                     main()
+            
+            if event.type == pygame.KEYDOWN and not game_over:
+                sketch_number(screen, event, row, col)
+                if check_if_victory():
+                    # checks if board == to a finished board after every sketch
+                    game_over = True
+            
         if game_over:
             pygame.display.update()
             pygame.time.delay(500) # small delay before game over screen
