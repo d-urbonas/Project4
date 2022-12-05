@@ -2,20 +2,34 @@ from constants import *
 import pygame
 from sudoku_generator import *
 
-removed = 30
-sudoku = SudokuGenerator(9, removed)
-sudoku.fill_values()
-solved_sudoku = [["-" for j in range(9)] for i in range(9)]
-for i, row in enumerate(sudoku.get_board()):
-    for j, col in enumerate(row):
-        solved_sudoku[i][j] = col
-sudoku.remove_cells()
-initial_sudoku = [["-" for j in range(9)] for i in range(9)]
-for i, row in enumerate(sudoku.get_board()):
-    for j, col in enumerate(row):
-        initial_sudoku[i][j] = col
-board = sudoku.get_board()
 
+def initialize():
+    # sets all variables as a global function
+    # and initializes all of them
+    # this method was created so that we can restart
+    # the game with a new generated board
+    global removed
+    global sudoku
+    global solved_sudoku
+    global initial_sudoku
+    global board
+
+    removed = 30
+    sudoku = SudokuGenerator(9, removed)
+    sudoku.fill_values()
+    solved_sudoku = [["-" for j in range(9)] for i in range(9)]
+    for i, row in enumerate(sudoku.get_board()):
+        for j, col in enumerate(row):
+            solved_sudoku[i][j] = col
+    sudoku.remove_cells()
+    initial_sudoku = [["-" for j in range(9)] for i in range(9)]
+    for i, row in enumerate(sudoku.get_board()):
+        for j, col in enumerate(row):
+            initial_sudoku[i][j] = col
+    board = sudoku.get_board()
+
+
+initialize()
 
 
 def main():
@@ -53,8 +67,10 @@ def main():
                     game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    # figure out how to restart the game off of this keypress I don't quite know how
-                    pass
+                    # restarts game off of this keypress
+                    # generates a different board too :)
+                    initialize()
+                    main()
         if game_over:
             pygame.display.update()
             pygame.time.delay(500) # small delay before game over screen
