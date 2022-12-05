@@ -40,6 +40,7 @@ def main():
     draw(screen)
     draw_nums(screen, board)
     game_over = False
+    did_win = False
 
     while True:
         for event in pygame.event.get():
@@ -69,14 +70,19 @@ def main():
             
             if event.type == pygame.KEYDOWN and not game_over:
                 sketch_number(screen, event, row, col)
-                if check_if_victory():
-                    # checks if board == to a finished board after every sketch
+                if check_if_full():
+                    # checks if there are no empty squares
+                    if check_if_victory():
+                        # checks if the board matches the correct board
+                        did_win = True
+                    else:
+                        did_win = False
                     game_over = True
             
         if game_over:
             pygame.display.update()
             pygame.time.delay(500) # small delay before game over screen
-            draw_game_over() 
+            draw_game_over(did_win) 
         pygame.display.update()
 
 
@@ -201,12 +207,23 @@ def check_if_victory():
         return True
     return False
 
-def draw_game_over():
+def check_if_full():
+    for row in board:
+        for col in row:
+            if col == 0:
+                return False
+
+    return True
+
+def draw_game_over(victory):
     # creates the ending game screen
     end_font = pygame.font.Font(None, GAME_OVER_FONT)
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     screen.fill(BG_COLOR)
-    end_text = f"Victory"
+    if victory:
+        end_text = f"Victory"
+    else:
+        end_text = f"You Lost"
     end_surf = end_font.render(end_text, 0, LINE_COLOR)
     end_rect = end_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 75))
     screen.blit(end_surf, end_rect)
