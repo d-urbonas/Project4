@@ -49,7 +49,7 @@ def main():
                 sketch_number(screen, event, row, col)
                 if check_if_victory():
                     # checks if board == to a finished board after every sketch
-                    game_over == True
+                    game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     # figure out how to restart the game off of this keypress I don't quite know how
