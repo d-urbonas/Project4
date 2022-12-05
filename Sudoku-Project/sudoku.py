@@ -5,7 +5,7 @@ from sudoku_generator import *
 game_over = True
 gameStarted = False
 did_win = False
-titleText = None
+titleText = None  # Initializing variables and setting to none
 titleRect = None
 subtitleText = None
 subtitleRect = None
@@ -29,7 +29,7 @@ initial_sudoku = None
 board = None
 
 def startGame():
-
+    # Setting variables as global variables to be accessed outside the function
     global titleText
     global titleRect
     global subtitleText
@@ -53,24 +53,33 @@ def startGame():
     game_over = True
     gameStarted = False
     did_win = False
+    # Creating the fonts for each button
     gameButton_font = pygame.font.Font(None, 60)
     button_font = pygame.font.Font(None, 40)
     title_font = pygame.font.Font(None, 64)
     subtitle_font = pygame.font.Font(None, 48)
+    # "Welcome to Sudoku" title text on menu
     titleText = title_font.render("Welcome to Sudoku", True, (0, 0, 0))
     titleRect = titleText.get_rect(center=(300, 100))
+    # "Select Game Mode:" subtitle text on menu
     subtitleText = subtitle_font.render("Select Game Mode:", True, (0, 0, 0))
     subtitleRect = subtitleText.get_rect(center=(300, 300))
+    # Creating the easy level button
     easyText = button_font.render("easy", True, (255, 255, 255), (255, 165, 0))
     easyRect = easyText.get_rect(center=(200, 450))
+    # Creating the medium level button
     mediumText = button_font.render("medium", True, (255, 255, 255), (255, 165, 0))
     mediumRect = mediumText.get_rect(center=(300, 450))
+    # Creating the hard level button
     hardText = button_font.render("hard", True, (255, 255, 255), (255, 165, 0))
     hardRect = easyText.get_rect(center=(400, 450))
+    # Creating "reset" button during the game screen
     resetText = gameButton_font.render("Reset", True, (255, 255, 255), (255, 165, 0))
     resetRect = resetText.get_rect(center=(WIDTH/4, 650))
+    # Creating "restart" button during the game screen
     restartText = gameButton_font.render("Restart", True, (255, 255, 255), (255, 165, 0))
     restartRect = restartText.get_rect(center=(2 * WIDTH/4, 650))
+    # Creating "exit" button during the game screen
     exitText = gameButton_font.render("Exit", True, (255, 255, 255), (255, 165, 0))
     exitRect = exitText.get_rect(center=(3 * WIDTH/4, 650))
 
@@ -243,6 +252,7 @@ def main():
 
 
 def draw(screen):
+    # Buttons displayed when games are in session using screen blit
     if not game_over:
         screen.blit(resetText, resetRect)
         screen.blit(restartText, restartRect)
@@ -286,6 +296,7 @@ def draw(screen):
                 #     for j in range(cols):
                 #         cells[i][j].draw(screen)
     else:
+        # Return to menu when game is not running
         print("game isnt running")
         screen.blit(titleText, titleRect)
         screen.blit(subtitleText, subtitleRect)
