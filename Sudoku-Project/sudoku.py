@@ -265,7 +265,7 @@ def draw(screen):
         screen.blit(exitText, exitRect)
 
         for i in range(0, BOARD_ROWS+1):
-            if i % 3 == 0:
+            if i % 3 == 0: # prints the bolded 3x3 grid
                 pygame.draw.line(
                     screen,
                     LINE_COLOR,
@@ -273,7 +273,7 @@ def draw(screen):
                     (WIDTH, i * SQUARE_SIZE),
                     BOX_WIDTH * 5
                 )
-            else:
+            else: # prints the smaller lines for the 9x9 grid
                 pygame.draw.line(
                     screen,
                     LINE_COLOR,
@@ -282,7 +282,7 @@ def draw(screen):
                     BOX_WIDTH
                 )
         for j in range(1, BOARD_COLS):
-            if j % 3 == 0:
+            if j % 3 == 0: #prints bolded 3x3 grid
                 pygame.draw.line(
                     screen,
                     LINE_COLOR,
@@ -290,7 +290,7 @@ def draw(screen):
                     (j * SQUARE_SIZE, HEIGHT-100),
                     BOX_WIDTH * 5
                 )
-            else:
+            else: # prints the smaller lines for the 9x9 grid
                 pygame.draw.line(
                     screen,
                     LINE_COLOR,
@@ -341,15 +341,15 @@ def draw_nums(screen, board):
     for row in range(BOARD_ROWS):
         for col in range(BOARD_COLS):
             if board[row][col] != 0:
-                if sketch_state[row][col]:
+                if sketch_state[row][col]: # for sketched value
                     chip_x_surf = sketch_dict[board[row][col]]
                     chip_x_rect = chip_x_surf.get_rect(
-                        center=(SQUARE_SIZE * col + SQUARE_SIZE // 4, SQUARE_SIZE * row + SQUARE_SIZE // 4))
+                        center=(SQUARE_SIZE * col + SQUARE_SIZE // 4, SQUARE_SIZE * row + SQUARE_SIZE // 4)) # position is top left corner of cell
                     screen.blit(chip_x_surf, chip_x_rect)
                 else:
-                    chip_x_surf = dict[board[row][col]]
+                    chip_x_surf = dict[board[row][col]] # for entered value
                     chip_x_rect = chip_x_surf.get_rect(
-                        center=(SQUARE_SIZE * col + SQUARE_SIZE // 2, SQUARE_SIZE * row + SQUARE_SIZE // 2))
+                        center=(SQUARE_SIZE * col + SQUARE_SIZE // 2, SQUARE_SIZE * row + SQUARE_SIZE // 2)) # position in middle of cell
                     screen.blit(chip_x_surf, chip_x_rect)
 
 
@@ -358,7 +358,7 @@ def sketch_number(screen, event, row, col):
     if initial_sudoku[row][col] != 0:
         return None
     else:
-        if event.key == pygame.K_1:
+        if event.key == pygame.K_1: # if a number key is pressed, calls upon the corresponding value in dictionary to print number
             board[row][col] = 1
             print(board)
             draw_nums(screen, board)
@@ -396,31 +396,32 @@ def sketch_number(screen, event, row, col):
             draw_nums(screen, board)
 
 
-def enter_number(row, col, event):
-    if initial_sudoku[row][col] != 0:
+def enter_number(row, col, event): #This function finalizes an input into a cell
+    if initial_sudoku[row][col] != 0: # cannot interact with the numbers provided initially
         return None
     else:
-        if event.key == pygame.K_RETURN:
-            sketch_state[row][col] = False
+        if event.key == pygame.K_RETURN: # checks for return key to be pressed, same as enter key.
+            sketch_state[row][col] = False # gets rid of the sketched value and replaces it with te saem value but in Black and in the center of cell.
             screen = pygame.display.set_mode((WIDTH, HEIGHT))
             pygame.display.set_caption('Sudoku')
             screen.fill(BG_COLOR)
             draw(screen)
-            draw_nums(screen, board)
+            draw_nums(screen, board) # redraws board after
 
 
 
 def clear(screen, event, row, col):
-    if initial_sudoku[row][col] != 0:
+    if initial_sudoku[row][col] != 0: # cannot interact with the numbers provided
         return None
     else:
-        if event.key == pygame.K_BACKSPACE:
-            board[row][col] = 0
+        if event.key == pygame.K_BACKSPACE: # checks for backspace key
+            board[row][col] = 0 #makes the sqaure blank after backspace is pressed.
             screen = pygame.display.set_mode((WIDTH, HEIGHT))
             pygame.display.set_caption('Sudoku')
             screen.fill(BG_COLOR)
             draw(screen)
             draw_nums(screen, board)
+            # keeps the cell selected
             pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE),
                              (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE), BOX_WIDTH * 5)
             pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE),
@@ -429,7 +430,7 @@ def clear(screen, event, row, col):
                              (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
             pygame.draw.line(screen, RED, (col * SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE),
                              (col * SQUARE_SIZE + SQUARE_SIZE, row * SQUARE_SIZE + SQUARE_SIZE), BOX_WIDTH * 5)
-            print(board)
+            print(board) #reprints the board after cell is cleared
 
 def check_if_victory():
     # checks to see if the player has won sudoku
